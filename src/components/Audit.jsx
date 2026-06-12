@@ -1,5 +1,5 @@
 // src/components/Audit.jsx
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     MagnifyingGlassIcon,
     DocumentTextIcon,
@@ -69,6 +69,61 @@ const Audit = () => {
     // Double the array to create a continuous vertical loop
     const doublePainItems = [...painItems, ...painItems];
 
+    // ── rAF-driven vertical scroll with active-card tracking ──
+    const listRef = useRef(null);
+    const offsetRef = useRef(0);          // current translateY in px
+    const pausedRef = useRef(false);      // true while hovered
+    const rafRef = useRef(null);
+    const [activeIndex, setActiveIndex] = useState(0);
+
+    useEffect(() => {
+        const SPEED = 0.6; // px per frame — adjust for desired pace
+
+        const tick = () => {
+            const ul = listRef.current;
+            if (!ul) { rafRef.current = requestAnimationFrame(tick); return; }
+
+            if (!pausedRef.current) {
+                offsetRef.current += SPEED;
+
+                // Total height of one set (half the duplicated list)
+                const halfHeight = ul.scrollHeight / 2;
+                if (offsetRef.current >= halfHeight) {
+                    offsetRef.current -= halfHeight; // seamless loop
+                }
+
+                ul.style.transform = `translateY(-${offsetRef.current}px)`;
+
+                // ── Determine which card is closest to the vertical center ──
+                const containerEl = ul.parentElement;
+                if (containerEl) {
+                    const containerCenter = containerEl.offsetHeight / 2;
+                    const items = ul.querySelectorAll('li');
+                    let closestIdx = 0;
+                    let closestDist = Infinity;
+
+                    items.forEach((item, i) => {
+                        // item top relative to container top, accounting for scroll offset
+                        const itemCenter = item.offsetTop - offsetRef.current + item.offsetHeight / 2;
+                        const dist = Math.abs(itemCenter - containerCenter);
+                        if (dist < closestDist) {
+                            closestDist = dist;
+                            closestIdx = i % painItems.length; // map back to original 4
+                        }
+                    });
+
+                    setActiveIndex(prev => prev !== closestIdx ? closestIdx : prev);
+                }
+            }
+
+            rafRef.current = requestAnimationFrame(tick);
+        };
+
+        rafRef.current = requestAnimationFrame(tick);
+
+        return () => cancelAnimationFrame(rafRef.current);
+    }, [painItems.length]);
+
     return (
         <div className="font-sans text-slate-800 bg-white min-h-screen overflow-x-hidden selection:bg-violet/30 selection:text-white">
             {/* HERO SECTION — two-column: left text, right globe */}
@@ -80,54 +135,54 @@ const Audit = () => {
                 <div className="absolute top-1/4 left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl animate-pulse pointer-events-none" style={{ animationDuration: '8s' }} />
                 <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse pointer-events-none" style={{ animationDuration: '12s' }} />
 
-                <div className="container mx-auto px-6 md:px-10 py-16 md:py-20 relative z-10 flex flex-col lg:flex-row items-center gap-12 min-h-screen">
+                <div className="container mx-auto px-6 md:px-10 py-10 md:py-14 relative z-10 flex flex-col lg:flex-row items-center gap-12 min-h-screen">
 
                     {/* LEFT: Hero copy */}
                     <div className="flex-1 flex flex-col items-start text-left max-w-2xl">
-                        <div className="hero-badge inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white rounded-full px-5 py-2.5 mb-8 font-medium backdrop-blur-md text-sm">
-                            <span className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping"></span>
+                        <div className="hero-badge inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white rounded-full px-4 py-1.5 mb-6 font-medium backdrop-blur-md text-xs">
+                            <span className="w-2 h-2 bg-emerald-400 rounded-full animate-ping"></span>
                             Now available for BFSI compliance teams
                         </div>
 
-                        <h1 className="font-display text-5xl md:text-6xl lg:text-7xl text-white mb-6 animate-fade-up font-extrabold tracking-tight leading-[1.05]" style={{ animationDelay: '0.1s' }}>
+                        <h1 className="font-display text-4xl md:text-5xl lg:text-5xl text-white mb-4 animate-fade-up font-extrabold tracking-tight leading-[1.05]" style={{ animationDelay: '0.1s' }}>
                             Compliance<br />Audits,<br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-pink-100 to-blue-200">Reimagined.</span>
                         </h1>
 
-                        <p className="hero-sub text-xl md:text-2xl text-white/80 mb-4 animate-fade-up font-medium" style={{ animationDelay: '0.2s' }}>
+                        <p className="hero-sub text-lg md:text-xl text-white/80 mb-3 animate-fade-up font-medium" style={{ animationDelay: '0.2s' }}>
                             From evidence request to final report — in a fraction of the time.
                         </p>
 
-                        <p className="hero-desc text-white/65 text-base md:text-lg mb-10 animate-fade-up leading-relaxed" style={{ animationDelay: '0.3s' }}>
+                        <p className="hero-desc text-white/65 text-sm md:text-base mb-6 animate-fade-up leading-relaxed" style={{ animationDelay: '0.3s' }}>
                             Audit.AI eliminates the hours lost to drafting, formatting, and evidence chasing — so your team spends time on insights, not paperwork.
                         </p>
 
                         <div className="hero-actions flex gap-4 flex-wrap animate-fade-up" style={{ animationDelay: '0.4s' }}>
-                            <a href="#contact" className="btn-primary inline-flex items-center gap-2 text-[#0A1628] font-bold py-4 px-8 rounded-xl shadow-2xl hover:scale-105 hover:shadow-white/20 transition-all bg-white hover:bg-slate-100 text-base">
+                            <a href="#contact" className="btn-primary inline-flex items-center gap-2 text-[#0A1628] font-bold py-3 px-6 rounded-lg shadow-2xl hover:scale-105 hover:shadow-white/20 transition-all bg-white hover:bg-slate-100 text-sm">
                                 Request a Demo <span>→</span>
                             </a>
-                            <a href="#how-it-works" className="btn-ghost inline-flex items-center gap-2 border-2 border-white/30 text-white py-4 px-8 rounded-xl backdrop-blur-sm hover:bg-white/10 hover:border-white/60 transition-all text-base">
+                            <a href="#how-it-works" className="btn-ghost inline-flex items-center gap-2 border-2 border-white/30 text-white py-3 px-6 rounded-lg backdrop-blur-sm hover:bg-white/10 hover:border-white/60 transition-all text-sm">
                                 See how it works
                             </a>
                         </div>
 
                         {/* Stat strip below CTAs */}
-                        <div className="stat-strip grid grid-cols-2 sm:grid-cols-4 gap-0 border border-white/15 rounded-2xl overflow-hidden mt-12 bg-black/25 backdrop-blur-md animate-fade-up w-full" style={{ animationDelay: '0.5s' }}>
-                            <div className="stat-item px-5 py-5 text-center border-r border-white/10">
-                                <div className="stat-num text-white text-3xl font-bold mb-1">70%+</div>
-                                <div className="stat-label text-[11px] text-white/50 uppercase tracking-wider">Effort saved</div>
+                        <div className="stat-strip grid grid-cols-2 sm:grid-cols-4 gap-0 border border-white/15 rounded-2xl overflow-hidden mt-8 bg-black/25 backdrop-blur-md animate-fade-up w-full" style={{ animationDelay: '0.5s' }}>
+                            <div className="stat-item px-4 py-3.5 text-center border-r border-white/10">
+                                <div className="stat-num text-white text-2xl font-bold mb-1">70%+</div>
+                                <div className="stat-label text-[10px] text-white/50 uppercase tracking-wider">Effort saved</div>
                             </div>
-                            <div className="stat-item px-5 py-5 text-center border-r border-white/10">
-                                <div className="stat-num text-white text-3xl font-bold mb-1">∞</div>
-                                <div className="stat-label text-[11px] text-white/50 uppercase tracking-wider">Unlimited audits</div>
+                            <div className="stat-item px-4 py-0.5 text-center border-r border-white/10">
+                                <div className="stat-num text-white text-6xl font-bold mb-1">∞</div>
+                                <div className="stat-label text-[10px] text-white/50 uppercase tracking-wider">Unlimited audits</div>
                             </div>
-                            <div className="stat-item px-5 py-5 text-center border-r border-white/10">
-                                <div className="stat-num text-white text-3xl font-bold mb-1">1×</div>
-                                <div className="stat-label text-[11px] text-white/50 uppercase tracking-wider">Jr. consultant cost</div>
+                            <div className="stat-item px-4 py-3.5 text-center border-r border-white/10">
+                                <div className="stat-num text-white text-2xl font-bold mb-1">1×</div>
+                                <div className="stat-label text-[10px] text-white/50 uppercase tracking-wider">Jr. consultant cost</div>
                             </div>
-                            <div className="stat-item px-5 py-5 text-center">
-                                <div className="stat-num text-white text-3xl font-bold mb-1">BFSI</div>
-                                <div className="stat-label text-[11px] text-white/50 uppercase tracking-wider">Specialised</div>
+                            <div className="stat-item px-4 py-3.5 text-center">
+                                <div className="stat-num text-white text-2xl font-bold mb-1">BFSI</div>
+                                <div className="stat-label text-[10px] text-white/50 uppercase tracking-wider">Specialised</div>
                             </div>
                         </div>
                     </div>
@@ -143,56 +198,57 @@ const Audit = () => {
 
                             {/* Floating threat nodes — big icons, visible on gradient */}
                             <div className="threat-node danger" style={{ top: '4%', left: '50%', animationDelay: '0.5s' }}>
-                                <LockClosedIcon className="w-7 h-7 text-white" />
+                                <LockClosedIcon className="w-5 h-5 text-white" />
                                 <div className="node-label">RANSOMWARE</div>
                             </div>
                             <div className="threat-node warn" style={{ top: '65%', left: '10%', animationDelay: '1.2s' }}>
-                                <IdentificationIcon className="w-7 h-7 text-white" />
+                                <IdentificationIcon className="w-5 h-5 text-white" />
                                 <div className="node-label">CREDENTIALS</div>
                             </div>
                             <div className="threat-node info" style={{ top: '25%', left: '2%', animationDelay: '0.8s' }}>
-                                <GlobeAltIcon className="w-7 h-7 text-white" />
+                                <GlobeAltIcon className="w-5 h-5 text-white" />
                                 <div className="node-label">ASM</div>
                             </div>
                             <div className="threat-node warn" style={{ top: '60%', right: '4%', animationDelay: '1.5s' }}>
-                                <ShieldCheckIcon className="w-7 h-7 text-white" />
+                                <ShieldCheckIcon className="w-5 h-5 text-white" />
                                 <div className="node-label">FAKE APPS</div>
                             </div>
                             <div className="threat-node danger" style={{ bottom: '2%', left: '42%', animationDelay: '2s' }}>
-                                <LinkIcon className="w-7 h-7 text-white" />
+                                <LinkIcon className="w-5 h-5 text-white" />
                                 <div className="node-label">SUPPLY CHAIN</div>
+                            </div>
+
+                            {/* Alert cards — glass style, big readable text */}
+                            <div className="alert-card hidden lg:block" style={{ top: '17%', right: '-162px', animationDelay: '0s' }}>
+                                <div className="flex items-center gap-2 font-bold text-rose-300 mb-1.5" style={{ fontSize: '11px' }}>
+                                    <ExclamationTriangleIcon className="w-4 h-4 flex-shrink-0" />
+                                    CRITICAL DETECTED
+                                </div>
+                                <div className="text-white font-medium" style={{ fontSize: '11px', lineHeight: '1.4' }}>Credential leak discovered in darkweb forum</div>
+                                <div className="text-white/60 mt-1 font-mono" style={{ fontSize: '9px' }}>→ T1078 · Valid Accounts · 2m ago</div>
+                            </div>
+
+                            <div className="alert-card hidden lg:block" style={{ bottom: '-12%', left: '-170px', animationDelay: '1.8s' }}>
+                                <div className="flex items-center gap-2 font-bold text-amber-300 mb-1.5" style={{ fontSize: '11px' }}>
+                                    <BoltIcon className="w-4 h-4 flex-shrink-0" />
+                                    NEW IOC INGESTED
+                                </div>
+                                <div className="text-white font-medium" style={{ fontSize: '11px', lineHeight: '1.4' }}>C2 domain resolved to known LockBit affiliate</div>
+                                <div className="text-white/60 mt-1 font-mono" style={{ fontSize: '9px' }}>→ T1071 · C2 Comms · 8m ago</div>
+                            </div>
+
+                            <div className="alert-card hidden lg:block" style={{ top: '101%', right: '-165px', animationDelay: '1s' }}>
+                                <div className="flex items-center gap-2 font-bold text-blue-300 mb-1.5" style={{ fontSize: '11px' }}>
+                                    <MagnifyingGlassIcon className="w-4 h-4 flex-shrink-0" />
+                                    BRAND PROTECTION
+                                </div>
+                                <div className="text-white font-medium" style={{ fontSize: '11px', lineHeight: '1.4' }}>Phishing domain mimicking corporate portal found</div>
+                                <div className="text-white/60 mt-1 font-mono" style={{ fontSize: '9px' }}>→ T1566 · Phishing · 14m ago</div>
                             </div>
 
                             <div className="globe-core"></div>
                         </div>
 
-                        {/* Alert cards — glass style, big readable text */}
-                        <div className="alert-card hidden lg:block" style={{ top: '8%', right: '-131px', animationDelay: '0s' }}>
-                            <div className="flex items-center gap-2 font-bold text-rose-300 mb-2" style={{ fontSize: '13px' }}>
-                                <ExclamationTriangleIcon className="w-5 h-5 flex-shrink-0" />
-                                CRITICAL DETECTED
-                            </div>
-                            <div className="text-white font-medium" style={{ fontSize: '13px', lineHeight: '1.5' }}>Credential leak discovered in darkweb forum</div>
-                            <div className="text-white/60 mt-1.5 font-mono" style={{ fontSize: '11px' }}>→ T1078 · Valid Accounts · 2m ago</div>
-                        </div>
-
-                        <div className="alert-card hidden lg:block" style={{ bottom: '12%', left: '-94px', animationDelay: '1.8s' }}>
-                            <div className="flex items-center gap-2 font-bold text-amber-300 mb-2" style={{ fontSize: '13px' }}>
-                                <BoltIcon className="w-5 h-5 flex-shrink-0" />
-                                NEW IOC INGESTED
-                            </div>
-                            <div className="text-white font-medium" style={{ fontSize: '13px', lineHeight: '1.5' }}>C2 domain resolved to known LockBit affiliate</div>
-                            <div className="text-white/60 mt-1.5 font-mono" style={{ fontSize: '11px' }}>→ T1071 · C2 Comms · 8m ago</div>
-                        </div>
-
-                        <div className="alert-card hidden lg:block" style={{ top: '68%', right: '-163px', animationDelay: '1s' }}>
-                            <div className="flex items-center gap-2 font-bold text-blue-300 mb-2" style={{ fontSize: '13px' }}>
-                                <MagnifyingGlassIcon className="w-5 h-5 flex-shrink-0" />
-                                BRAND PROTECTION
-                            </div>
-                            <div className="text-white font-medium" style={{ fontSize: '13px', lineHeight: '1.5' }}>Phishing domain mimicking corporate portal found</div>
-                            <div className="text-white/60 mt-1.5 font-mono" style={{ fontSize: '11px' }}>→ T1566 · Phishing · 14m ago</div>
-                        </div>
                     </div>
 
                     {/* Alert cards — glass style, visible on mobile */}
@@ -230,15 +286,15 @@ const Audit = () => {
             </section>
 
             {/* PROBLEM SECTION */}
-            <section className="problem py-24 bg-white">
+            <section className="problem py-16 md:py-20 bg-white">
                 <div className="container mx-auto px-5">
-                    <div className="problem-layout grid md:grid-cols-2 gap-16 items-center">
+                    <div className="problem-layout grid md:grid-cols-2 gap-12 items-center">
                         <div className="reveal">
                             <div className="section-eyebrow text-violet font-semibold tracking-widest text-xs uppercase mb-3">The Problem</div>
-                            <h2 className="section-title text-4xl md:text-5xl font-display text-slate-950 mb-6 leading-tight">
+                            <h2 className="section-title text-3xl md:text-4xl font-display text-slate-950 mb-6 leading-tight">
                                 Quality compliance is drowning in <em className="italic text-violet">admin work</em>
                             </h2>
-                            <p className="section-body text-slate-700 max-w-prose mb-8 leading-relaxed text-lg">
+                            <p className="section-body text-slate-700 max-w-prose mb-8 leading-relaxed text-base">
                                 Regulatory compliance audits should deliver insight and assurance. Instead, they consume hours in evidence chasing, report drafting, and formatting — tasks that don't move the needle for anyone.
                             </p>
                             <blockquote className="problem-quote border-l-4 border-violet bg-violet-50/50 pl-6 py-5 rounded-r-lg shadow-sm">
@@ -252,28 +308,49 @@ const Audit = () => {
                         </div>
 
                         {/* Vertical scrolling list container with left rounded borders and right gradient smudge */}
-                        <div className="reveal relative h-[420px] overflow-hidden rounded-l-2xl border-l border-y border-violet/20 bg-slate-50/60 backdrop-blur-sm">
+                        <div
+                            className="reveal relative h-[420px] overflow-hidden rounded-l-2xl border-violet/20 backdrop-blur-sm"
+                            onMouseEnter={() => { pausedRef.current = true; }}
+                            onMouseLeave={() => { pausedRef.current = false; }}
+                        >
                             {/* Gradient overlay for right-side smudged/faded look */}
                             <div className="absolute inset-y-0 right-0 w-36 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none" />
                             {/* Top & bottom overlays to soften edges */}
                             <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-white to-transparent z-10 pointer-events-none" />
                             <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white to-transparent z-10 pointer-events-none" />
 
-                            <ul className="pain-list space-y-4 py-6 px-4 animate-scroll-vertical">
-                                {doublePainItems.map((item, index) => (
-                                    <li
-                                        key={index}
-                                        className="pain-item bg-white border-l-4 border-y border-r border-slate-200 hover:border-violet/60 rounded-l-xl rounded-r-none p-5 flex gap-4 transition-all duration-300 shadow-md"
-                                    >
-                                        <div className="pain-icon bg-violet/10 rounded-lg p-2.5 flex items-center justify-center h-11 w-11 flex-shrink-0">
-                                            {item.icon}
-                                        </div>
-                                        <div className="pain-text text-sm">
-                                            <strong className="block font-semibold text-slate-950 mb-1.5 text-base">{item.title}</strong>
-                                            <span className="text-slate-700 leading-relaxed">{item.desc}</span>
-                                        </div>
-                                    </li>
-                                ))}
+                            {/* rAF-driven list — no CSS animation class, JS controls transform */}
+                            <ul ref={listRef} className="pain-list space-y-4 py-6 px-4" style={{ willChange: 'transform' }}>
+                                {doublePainItems.map((item, index) => {
+                                    const isActive = (index % painItems.length) === activeIndex;
+                                    return (
+                                        <li
+                                            key={index}
+                                            className={[
+                                                "pain-item bg-white rounded-l-xl rounded-r-none p-5 flex gap-4 shadow-md",
+                                                "border-y border-r border-slate-200",
+                                                isActive
+                                                    ? "border-l-4 border-l-violet/60 scale-[1.02] shadow-violet/10 shadow-lg"
+                                                    : "border-l-4 border-l-slate-200",
+                                                "transition-all duration-500"
+                                            ].join(' ')}
+                                        >
+                                            <div className={[
+                                                "pain-icon rounded-lg p-2.5 flex items-center justify-center h-11 w-11 flex-shrink-0",
+                                                isActive ? "bg-violet/15" : "bg-violet/10"
+                                            ].join(' ')}>
+                                                {item.icon}
+                                            </div>
+                                            <div className="pain-text text-sm">
+                                                <strong className={[
+                                                    "block font-semibold mb-1.5 text-base",
+                                                    isActive ? "text-violet" : "text-slate-950"
+                                                ].join(' ')}>{item.title}</strong>
+                                                <span className="text-slate-700 leading-relaxed">{item.desc}</span>
+                                            </div>
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         </div>
                     </div>
@@ -281,20 +358,20 @@ const Audit = () => {
             </section>
 
             {/* HOW IT WORKS SECTION */}
-            <section id="how-it-works" className="how py-24 bg-slate-50/50 border-y border-slate-100">
+            <section id="how-it-works" className="how py-16 md:py-20 bg-slate-50/50 border-y border-slate-100">
                 <div className="container mx-auto px-5">
-                    <div className="how-header text-center mb-16 reveal">
+                    <div className="how-header text-center mb-12 reveal">
                         <div className="section-eyebrow text-violet font-semibold tracking-widest text-xs uppercase mb-3">How Audit.AI Works</div>
-                        <h2 className="section-title text-4xl md:text-5xl font-display text-slate-950 mb-6">
+                        <h2 className="section-title text-3xl md:text-4xl font-display text-slate-950 mb-6">
                             Three steps. End‑to‑end <em className="italic text-violet">audit delivery.</em>
                         </h2>
-                        <p className="section-body text-slate-700 max-w-2xl mx-auto text-lg leading-relaxed">
+                        <p className="section-body text-slate-700 max-w-2xl mx-auto text-base leading-relaxed">
                             From opening the engagement to shipping the final report — Audit.AI handles the heavy lifting at every stage.
                         </p>
                     </div>
                     <div className="steps grid md:grid-cols-3 gap-6 reveal">
                         {/* Step 1 */}
-                        <div className="step bg-white border border-slate-200 p-8 rounded-2xl relative transition-all duration-300 hover:translate-y-[-5px] shadow-lg shadow-slate-100/50 flex flex-col h-full">
+                        <div className="step bg-white border border-slate-200 p-6 rounded-xl relative transition-all duration-300 hover:translate-y-[-5px] shadow-lg shadow-slate-100/50 flex flex-col h-full">
                             <div className="step-number flex items-center gap-2 text-xs text-violet font-semibold tracking-wider mb-6">
                                 STEP 01
                                 <span className="flex-1 h-px bg-slate-100" />
@@ -302,14 +379,14 @@ const Audit = () => {
                             <div className="h-12 w-12 rounded-xl bg-primaryBlue/10 flex items-center justify-center mb-6">
                                 <CloudArrowUpIcon className="w-6 h-6 text-primaryBlue" />
                             </div>
-                            <h3 className="font-display text-2xl text-slate-950 mb-3 font-bold">Evidence Request, Generated</h3>
+                            <h3 className="font-display text-xl text-slate-950 mb-3 font-bold">Evidence Request, Generated</h3>
                             <p className="text-slate-700 leading-relaxed text-sm mb-6 flex-1">Audit.AI produces a complete, regulation‑specific evidence checklist the moment you open an engagement. Share it directly with your client — no manual drafting.</p>
                             <div className="mt-auto pt-2">
                                 <span className="step-tag text-xs font-semibold text-primaryBlue bg-primaryBlue/10 border border-primaryBlue/20 px-3 py-1.5 rounded-full inline-block">Client‑ready instantly</span>
                             </div>
                         </div>
                         {/* Step 2 */}
-                        <div className="step bg-white border border-slate-200 p-8 rounded-2xl relative transition-all duration-300 hover:translate-y-[-5px] shadow-lg shadow-slate-100/50 flex flex-col h-full">
+                        <div className="step bg-white border border-slate-200 p-6 rounded-xl relative transition-all duration-300 hover:translate-y-[-5px] shadow-lg shadow-slate-100/50 flex flex-col h-full">
                             <div className="step-number flex items-center gap-2 text-xs text-violet font-semibold tracking-wider mb-6">
                                 STEP 02
                                 <span className="flex-1 h-px bg-slate-100" />
@@ -317,14 +394,14 @@ const Audit = () => {
                             <div className="h-12 w-12 rounded-xl bg-[#D51776]/10 flex items-center justify-center mb-6">
                                 <BoltIcon className="w-6 h-6 text-[#D51776]" />
                             </div>
-                            <h3 className="font-display text-2xl text-slate-950 mb-3 font-bold">Evidence Evaluated Automatically</h3>
+                            <h3 className="font-display text-xl text-slate-950 mb-3 font-bold">Evidence Evaluated Automatically</h3>
                             <p className="text-slate-700 leading-relaxed text-sm mb-6 flex-1">Upload received documents. Audit.AI evaluates them against the applicable regulation and drafts observations, findings, and recommendations — ready for review.</p>
                             <div className="mt-auto pt-2">
                                 <span className="step-tag text-xs font-semibold text-[#D51776] bg-[#D51776]/10 border border-[#D51776]/20 px-3 py-1.5 rounded-full inline-block">AI‑powered analysis</span>
                             </div>
                         </div>
                         {/* Step 3 */}
-                        <div className="step bg-white border border-slate-200 p-8 rounded-2xl relative transition-all duration-300 hover:translate-y-[-5px] shadow-lg shadow-slate-100/50 flex flex-col h-full">
+                        <div className="step bg-white border border-slate-200 p-6 rounded-xl relative transition-all duration-300 hover:translate-y-[-5px] shadow-lg shadow-slate-100/50 flex flex-col h-full">
                             <div className="step-number flex items-center gap-2 text-xs text-violet font-semibold tracking-wider mb-6">
                                 STEP 03
                                 <span className="flex-1 h-px bg-slate-100" />
@@ -332,7 +409,7 @@ const Audit = () => {
                             <div className="h-12 w-12 rounded-xl bg-violet/10 flex items-center justify-center mb-6">
                                 <DocumentTextIcon className="w-6 h-6 text-violet" />
                             </div>
-                            <h3 className="font-display text-2xl text-slate-950 mb-3 font-bold">Regulator‑Ready Report, Drafted</h3>
+                            <h3 className="font-display text-xl text-slate-950 mb-3 font-bold">Regulator‑Ready Report, Drafted</h3>
                             <p className="text-slate-700 leading-relaxed text-sm mb-6 flex-1">A well‑formatted, regulator‑friendly report is assembled automatically. Structured, consistent, and ready to ship — without a single hour of manual formatting.</p>
                             <div className="mt-auto pt-2">
                                 <span className="step-tag text-xs font-semibold text-violet bg-violet/10 border border-violet/20 px-3 py-1.5 rounded-full inline-block">Ship‑ready output</span>
@@ -343,17 +420,17 @@ const Audit = () => {
             </section>
 
             {/* HUMAN IN THE LOOP SECTION */}
-            <section className="hitl py-24 bg-white">
+            <section className="hitl py-16 md:py-20 bg-white">
                 <div className="container mx-auto px-5">
                     <div className="hitl-card grid md:grid-cols-2 gap-12 items-center reveal">
                         <div>
                             <div className="section-eyebrow text-violet font-semibold tracking-widest text-xs uppercase mb-3">Human‑in‑the‑Loop</div>
-                            <h2 className="section-title text-4xl md:text-5xl font-display text-slate-950 mb-6 leading-tight">
+                            <h2 className="section-title text-3xl md:text-4xl font-display text-slate-950 mb-6 leading-tight">
                                 AI does the work.<br />
                                 <em className="italic text-violet">Your team stays in control.</em>
                             </h2>
-                            <p className="section-body text-slate-700 mb-6 leading-relaxed text-lg">Audit.AI operates on a human‑in‑the‑loop model. Every output is reviewed, refined, and approved by your team before it reaches a client. The AI accelerates; your experts decide.</p>
-                            <p className="section-body text-slate-700 leading-relaxed">This means your firm's judgment, reputation, and professional standards remain intact — while the grind of production work disappears.</p>
+                            <p className="section-body text-slate-700 mb-6 leading-relaxed text-base">Audit.AI operates on a human‑in‑the‑loop model. Every output is reviewed, refined, and approved by your team before it reaches a client. The AI accelerates; your experts decide.</p>
+                            <p className="section-body text-slate-700 leading-relaxed text-sm">This means your firm's judgment, reputation, and professional standards remain intact — while the grind of production work disappears.</p>
                         </div>
 
                         {/* Flow diagram updated with premium colors and animations */}
@@ -400,12 +477,12 @@ const Audit = () => {
             </section>
 
             {/* REGULATIONS SECTION */}
-            <section id="regulations" className="regs py-24 bg-slate-50/50 border-y border-slate-100">
+            <section id="regulations" className="regs py-16 md:py-20 bg-slate-50/50 border-y border-slate-100">
                 <div className="container mx-auto px-5">
-                    <div className="regs-header text-center reveal max-w-3xl mx-auto mb-16">
+                    <div className="regs-header text-center reveal max-w-3xl mx-auto mb-12">
                         <div className="section-eyebrow text-violet font-semibold tracking-widest text-xs uppercase mb-3">Regulatory Coverage</div>
-                        <h2 className="section-title text-4xl md:text-5xl font-display text-slate-950 mb-6">Every major framework.<br /><em className="italic text-violet">One platform.</em></h2>
-                        <p className="section-body text-slate-700 text-lg leading-relaxed">Audit.AI is trained to handle India's primary financial regulators and a full suite of international frameworks — and is built to be regulator, geography, and risk‑area agnostic.</p>
+                        <h2 className="section-title text-3xl md:text-4xl font-display text-slate-950 mb-6">Every major framework.<br /><em className="italic text-violet">One platform.</em></h2>
+                        <p className="section-body text-slate-700 text-base leading-relaxed">Audit.AI is trained to handle India's primary financial regulators and a full suite of international frameworks — and is built to be regulator, geography, and risk‑area agnostic.</p>
                     </div>
                     <div className="reg-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 reveal">
                         <div className="reg-chip bg-white border border-slate-200 rounded-xl p-5 text-center hover:bg-violet-50/50 hover:border-violet/50 transition-all duration-300 group shadow-sm">
@@ -425,27 +502,27 @@ const Audit = () => {
                             <div className="reg-scope text-xs text-slate-600">Information security management</div>
                         </div>
                     </div>
-                    <div className="agnostic-banner bg-gradient-to-r from-violet-500/5 via-transparent to-primaryBlue/5 border border-violet-100 rounded-2xl p-8 text-center text-base md:text-lg text-slate-800 mt-12 reveal max-w-4xl mx-auto shadow-sm leading-relaxed">
+                    <div className="agnostic-banner bg-gradient-to-r from-violet-500/5 via-transparent to-primaryBlue/5 border border-violet-100 rounded-2xl p-6 text-center text-sm md:text-base text-slate-800 mt-12 reveal max-w-4xl mx-auto shadow-sm leading-relaxed">
                         Audit.AI is <strong className="text-slate-950">regulator‑agnostic, geography‑agnostic, and risk‑area agnostic</strong> — trained specifically for BFSI sector compliance audits, with the ability to adapt to any standard your clients require.
                     </div>
                 </div>
             </section>
 
             {/* OUTCOMES SECTION */}
-            <section id="outcomes" className="outcomes py-24 bg-white">
+            <section id="outcomes" className="outcomes py-16 md:py-20 bg-white">
                 <div className="container mx-auto px-5">
                     <div className="outcomes-layout grid md:grid-cols-2 gap-16 items-center">
                         <div className="reveal">
                             <div className="section-eyebrow text-violet font-semibold tracking-widest text-xs uppercase mb-3">Business Outcomes</div>
-                            <h2 className="section-title text-4xl md:text-5xl font-display text-slate-950 mb-6 leading-tight">More audits.<br />Same team.<br /><em className="italic text-violet">Better margins.</em></h2>
-                            <p className="section-body text-slate-700 mb-6 leading-relaxed text-lg">When your team spends far less time on paperwork and report writing, they spend more time on insights, client conversations, and delivery quality.</p>
-                            <p className="section-body text-slate-700 leading-relaxed">That directly improves realization, utilization, and the ability to take on more work — without adding headcount.</p>
+                            <h2 className="section-title text-3xl md:text-4xl font-display text-slate-950 mb-6 leading-tight">More audits.<br />Same team.<br /><em className="italic text-violet">Better margins.</em></h2>
+                            <p className="section-body text-slate-700 mb-6 leading-relaxed text-base">When your team spends far less time on paperwork and report writing, they spend more time on insights, client conversations, and delivery quality.</p>
+                            <p className="section-body text-slate-700 leading-relaxed text-sm">That directly improves realization, utilization, and the ability to take on more work — without adding headcount.</p>
                         </div>
 
                         {/* Outcomes cards */}
                         <div className="outcome-cards grid grid-cols-2 gap-5 reveal">
                             <div className="outcome-card bg-white border border-slate-200 rounded-2xl p-6 hover:border-violet/50 shadow-xl shadow-slate-100 hover:scale-[1.03] transition-all duration-300">
-                                <div className="outcome-num text-transparent bg-clip-text bg-gradient-to-r from-violet to-primaryBlue text-5xl font-display font-extrabold mb-3">70%+</div>
+                                <div className="outcome-num text-transparent bg-clip-text bg-gradient-to-r from-violet to-primaryBlue text-4xl font-display font-extrabold mb-3">70%+</div>
                                 <div className="outcome-label text-sm text-slate-700 leading-relaxed"><strong className="text-slate-950">Effort saved per audit project.</strong> Firms report over 70% reduction in total hours per engagement.</div>
                             </div>
                             <div className="outcome-card bg-white border border-slate-200 rounded-2xl p-6 hover:border-violet/50 shadow-xl shadow-slate-100 hover:scale-[1.03] transition-all duration-300">
@@ -463,7 +540,7 @@ const Audit = () => {
                                 <div className="outcome-label text-sm text-slate-700 leading-relaxed"><strong className="text-slate-950">Higher realization</strong> and utilization rates per senior consultant.</div>
                             </div>
                             <div className="outcome-card bg-white border border-slate-200 rounded-2xl p-6 hover:border-violet/50 shadow-xl shadow-slate-100 hover:scale-[1.03] transition-all duration-300">
-                                <div className="outcome-num text-transparent bg-clip-text bg-gradient-to-r from-violet to-primaryBlue text-5xl font-display font-extrabold mb-3">0</div>
+                                <div className="outcome-num text-transparent bg-clip-text bg-gradient-to-r from-violet to-primaryBlue text-4xl font-display font-extrabold mb-3">0</div>
                                 <div className="outcome-label text-sm text-slate-700 leading-relaxed"><strong className="text-slate-950">Additional headcount</strong> needed to take on and scale engagements.</div>
                             </div>
                             <div className="outcome-card bg-white border border-slate-200 rounded-2xl p-6 hover:border-violet/50 shadow-xl shadow-slate-100 hover:scale-[1.03] transition-all duration-300">
@@ -478,56 +555,56 @@ const Audit = () => {
             </section>
 
             {/* AUDIT & COMPLIANCE SOLUTIONS SECTION */}
-            <section id="audit-compliance-solutions" className="audit-compliance py-24 bg-slate-50/50 border-y border-slate-100">
+            <section id="audit-compliance-solutions" className="audit-compliance py-16 md:py-20 bg-slate-50/50 border-y border-slate-100">
                 <div className="container mx-auto px-5">
                     {/* Header styled as subtitle — smaller, lighter */}
                     <div className="text-center max-w-3xl mx-auto mb-8 reveal">
                         <div className="section-eyebrow text-violet font-semibold tracking-widest text-xs uppercase mb-3">Audit &amp; Compliance Solutions</div>
-                        <h2 className="text-2xl md:text-3xl font-display text-slate-800 font-semibold mb-4">
+                        <h2 className="text-xl md:text-2xl font-display text-slate-800 font-semibold mb-4">
                             Strengthening Governance, Risk Management, and Regulatory Compliance
                         </h2>
-                        <p className="text-slate-700 text-base mb-3 leading-relaxed">
+                        <p className="text-slate-700 text-sm mb-3 leading-relaxed">
                             In today's highly regulated business environment, managing audits and monitoring compliance manually can be complex, slow, and error-prone.
                         </p>
-                        <p className="text-slate-600 text-sm leading-relaxed">
+                        <p className="text-slate-600 text-xs leading-relaxed">
                             Peopleclick Audit &amp; Compliance Solutions automate these processes, enabling organizations to detect risks early, maintain compliance, and improve operational transparency.
                         </p>
                     </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 reveal">
-                        <div className="bg-white border border-slate-200 p-6 rounded-2xl hover:border-violet/40 hover:translate-y-[-5px] hover:shadow-xl transition-all duration-300 flex flex-col justify-between shadow-md">
+                        <div className="bg-white border border-slate-200 p-5 rounded-xl hover:border-violet/40 hover:translate-y-[-5px] hover:shadow-xl transition-all duration-300 flex flex-col justify-between shadow-md">
                             <div>
                                 <div className="h-12 w-12 rounded-xl bg-violet/10 flex items-center justify-center mb-6">
                                     <Cog6ToothIcon className="w-6 h-6 text-violet" />
                                 </div>
-                                <h3 className="text-xl font-bold text-slate-950 mb-3">Process Automation</h3>
+                                <h3 className="text-lg font-bold text-slate-950 mb-3">Process Automation</h3>
                                 <p className="text-sm text-slate-700 leading-relaxed">Automate internal and external audit workflows, checklists, and document requests seamlessly.</p>
                             </div>
                         </div>
-                        <div className="bg-white border border-slate-200 p-6 rounded-2xl hover:border-[#3d63e2]/40 hover:translate-y-[-5px] hover:shadow-xl transition-all duration-300 flex flex-col justify-between shadow-md">
+                        <div className="bg-white border border-slate-200 p-5 rounded-xl hover:border-[#3d63e2]/40 hover:translate-y-[-5px] hover:shadow-xl transition-all duration-300 flex flex-col justify-between shadow-md">
                             <div>
                                 <div className="h-12 w-12 rounded-xl bg-primaryBlue/10 flex items-center justify-center mb-6">
                                     <ChartBarIcon className="w-6 h-6 text-primaryBlue" />
                                 </div>
-                                <h3 className="text-xl font-bold text-slate-950 mb-3">Compliance Monitoring</h3>
+                                <h3 className="text-lg font-bold text-slate-950 mb-3">Compliance Monitoring</h3>
                                 <p className="text-sm text-slate-700 leading-relaxed">Monitor compliance with evolving regulatory standards and internal policy mandates dynamically.</p>
                             </div>
                         </div>
-                        <div className="bg-white border border-slate-200 p-6 rounded-2xl hover:border-[#D51776]/40 hover:translate-y-[-5px] hover:shadow-xl transition-all duration-300 flex flex-col justify-between shadow-md">
+                        <div className="bg-white border border-slate-200 p-5 rounded-xl hover:border-[#D51776]/40 hover:translate-y-[-5px] hover:shadow-xl transition-all duration-300 flex flex-col justify-between shadow-md">
                             <div>
                                 <div className="h-12 w-12 rounded-xl bg-[#D51776]/10 flex items-center justify-center mb-6">
                                     <MagnifyingGlassIcon className="w-6 h-6 text-[#D51776]" />
                                 </div>
-                                <h3 className="text-xl font-bold text-slate-950 mb-3">Risk Detection</h3>
+                                <h3 className="text-lg font-bold text-slate-950 mb-3">Risk Detection</h3>
                                 <p className="text-sm text-slate-700 leading-relaxed">Detect transaction anomalies, compliance risks, and control failures before they escalate.</p>
                             </div>
                         </div>
-                        <div className="bg-white border border-slate-200 p-6 rounded-2xl hover:border-violet/40 hover:translate-y-[-5px] hover:shadow-xl transition-all duration-300 flex flex-col justify-between shadow-md md:col-span-2 lg:col-span-1 lg:max-w-none md:max-w-md md:mx-auto lg:mx-0">
+                        <div className="bg-white border border-slate-200 p-5 rounded-xl hover:border-violet/40 hover:translate-y-[-5px] hover:shadow-xl transition-all duration-300 flex flex-col justify-between shadow-md md:col-span-2 lg:col-span-1 lg:max-w-none md:max-w-md md:mx-auto lg:mx-0">
                             <div>
                                 <div className="h-12 w-12 rounded-xl bg-violet/10 flex items-center justify-center mb-6">
                                     <ShieldCheckIcon className="w-6 h-6 text-violet" />
                                 </div>
-                                <h3 className="text-xl font-bold text-slate-950 mb-3">Governance Framework</h3>
+                                <h3 className="text-lg font-bold text-slate-950 mb-3">Governance Framework</h3>
                                 <p className="text-sm text-slate-700 leading-relaxed">Strengthen governance structure and internal control mechanisms across all operational departments.</p>
                             </div>
                         </div>
@@ -536,9 +613,9 @@ const Audit = () => {
             </section>
 
             {/* AUDIT AI PLATFORM SECTION */}
-            <section id="audit-ai-platform" className="audit-ai py-24 bg-white">
+            <section id="audit-ai-platform" className="audit-ai py-16 md:py-20 bg-white">
                 <div className="container mx-auto px-5">
-                    <div className="grid md:grid-cols-2 gap-16 items-center">
+                    <div className="grid md:grid-cols-2 gap-12 items-center">
                         {/* Left Column: Interactive Live Audit Feed Mockup */}
                         <div className="reveal order-2 md:order-1">
                             <div className="intel-panel border border-violet/30 rounded-2xl overflow-hidden shadow-2xl bg-[#0D1E35]">
@@ -586,10 +663,10 @@ const Audit = () => {
                         {/* Right Column: Platform overview */}
                         <div className="reveal order-1 md:order-2">
                             <div className="section-eyebrow text-violet font-semibold tracking-widest text-xs uppercase mb-3">Audit AI Platform</div>
-                            <h2 className="section-title text-4xl md:text-5xl font-display text-slate-950 mb-6 leading-tight">
+                            <h2 className="section-title text-3xl md:text-4xl font-display text-slate-950 mb-6 leading-tight">
                                 Intelligent Audit Automation for Smarter Compliance
                             </h2>
-                            <p className="section-body text-slate-700 mb-6 leading-relaxed text-lg">
+                            <p className="section-body text-slate-700 mb-6 leading-relaxed text-base">
                                 The Peopleclick Audit AI Platform brings machine intelligence to the regulatory framework. By monitoring transactions, detecting operational deviations, and drafting documentation, it transitions teams from periodic auditing to real-time compliance operations.
                             </p>
                             <ul className="space-y-4">
@@ -597,19 +674,19 @@ const Audit = () => {
                                     <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primaryBlue/10 flex-shrink-0 mt-0.5">
                                         <CheckIcon className="w-4 h-4 text-primaryBlue" />
                                     </span>
-                                    <span>Continuous real‑time operational transaction auditing</span>
+                                    <span className="text-sm">Continuous real‑time operational transaction auditing</span>
                                 </li>
                                 <li className="flex items-start gap-3 text-slate-800">
                                     <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primaryBlue/10 flex-shrink-0 mt-0.5">
                                         <CheckIcon className="w-4 h-4 text-primaryBlue" />
                                     </span>
-                                    <span>AI anomaly detection matching global regulatory rules</span>
+                                    <span className="text-sm">AI anomaly detection matching global regulatory rules</span>
                                 </li>
                                 <li className="flex items-start gap-3 text-slate-800">
                                     <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primaryBlue/10 flex-shrink-0 mt-0.5">
                                         <CheckIcon className="w-4 h-4 text-primaryBlue" />
                                     </span>
-                                    <span>Instant mapping of internal controls to multiple compliance standards</span>
+                                    <span className="text-sm">Instant mapping of internal controls to multiple compliance standards</span>
                                 </li>
                             </ul>
                         </div>
@@ -618,44 +695,44 @@ const Audit = () => {
             </section>
 
             {/* SECURITY & THREAT INTELLIGENCE (ORGWATCH INTEGRATION) */}
-            <section id="threat-intelligence" className="threats py-24 bg-slate-50/50 border-y border-slate-100">
+            <section id="threat-intelligence" className="threats py-16 md:py-20 bg-slate-50/50 border-y border-slate-100">
                 <div className="container mx-auto px-5">
-                    <div className="grid md:grid-cols-2 gap-16 items-center">
+                    <div className="grid md:grid-cols-2 gap-12 items-center">
                         {/* Left side: Threat Capabilities */}
                         <div className="reveal">
                             <div className="section-eyebrow text-primaryBlue font-semibold tracking-widest text-xs uppercase mb-4">Threat Intelligence (Powered by OrgWatch)</div>
-                            <h2 className="text-4xl md:text-5xl font-bold text-slate-950 mb-6 leading-tight" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                            <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-6 leading-tight" style={{ fontFamily: 'Poppins, sans-serif' }}>
                                 Attack Surface &amp; Threat Infrastructure Monitoring
                             </h2>
-                            <p className="text-slate-700 mb-8 leading-relaxed text-lg">
+                            <p className="text-slate-700 mb-8 leading-relaxed text-base">
                                 Audit compliance doesn't end with paperwork. OrgWatch actively monitors external threat vector assets, brand impersonation, ransomware leak risks, and supply chain exposure, providing a robust shield aligned with the MITRE ATT&amp;CK framework.
                             </p>
 
                             <div className="grid sm:grid-cols-2 gap-5">
-                                <div className="p-6 bg-white border border-slate-200 rounded-2xl hover:border-[#D51776]/40 hover:shadow-lg transition-all shadow-sm">
-                                    <div className="h-14 w-14 rounded-xl bg-[#D51776]/10 flex items-center justify-center mb-4">
-                                        <LockClosedIcon className="w-7 h-7 text-[#D51776]" />
+                                <div className="p-5 bg-white border border-slate-200 rounded-2xl hover:border-[#D51776]/40 hover:shadow-lg transition-all shadow-sm">
+                                    <div className="h-12 w-12 rounded-xl bg-[#D51776]/10 flex items-center justify-center mb-4">
+                                        <LockClosedIcon className="w-6 h-6 text-[#D51776]" />
                                     </div>
                                     <h4 className="text-slate-950 font-bold mb-2 text-base">Ransomware Watch</h4>
                                     <p className="text-sm text-slate-600 leading-relaxed">Tracks threat groups and scans sector leak feeds continuously.</p>
                                 </div>
-                                <div className="p-6 bg-white border border-slate-200 rounded-2xl hover:border-primaryBlue/40 hover:shadow-lg transition-all shadow-sm">
-                                    <div className="h-14 w-14 rounded-xl bg-primaryBlue/10 flex items-center justify-center mb-4">
-                                        <IdentificationIcon className="w-7 h-7 text-primaryBlue" />
+                                <div className="p-5 bg-white border border-slate-200 rounded-2xl hover:border-primaryBlue/40 hover:shadow-lg transition-all shadow-sm">
+                                    <div className="h-12 w-12 rounded-xl bg-primaryBlue/10 flex items-center justify-center mb-4">
+                                        <IdentificationIcon className="w-6 h-6 text-primaryBlue" />
                                     </div>
                                     <h4 className="text-slate-950 font-bold mb-2 text-base">Credential Detection</h4>
                                     <p className="text-sm text-slate-600 leading-relaxed">Darkweb credential compromise scanning to prevent initial breach access.</p>
                                 </div>
-                                <div className="p-6 bg-white border border-slate-200 rounded-2xl hover:border-violet/40 hover:shadow-lg transition-all shadow-sm">
-                                    <div className="h-14 w-14 rounded-xl bg-violet/10 flex items-center justify-center mb-4">
-                                        <GlobeAltIcon className="w-7 h-7 text-violet" />
+                                <div className="p-5 bg-white border border-slate-200 rounded-2xl hover:border-violet/40 hover:shadow-lg transition-all shadow-sm">
+                                    <div className="h-12 w-12 rounded-xl bg-violet/10 flex items-center justify-center mb-4">
+                                        <GlobeAltIcon className="w-6 h-6 text-violet" />
                                     </div>
                                     <h4 className="text-slate-950 font-bold mb-2 text-base">External ASM</h4>
                                     <p className="text-sm text-slate-600 leading-relaxed">Continuous discovery of subdomains, open ports, and vulnerable points.</p>
                                 </div>
-                                <div className="p-6 bg-white border border-slate-200 rounded-2xl hover:border-[#D51776]/40 hover:shadow-lg transition-all shadow-sm">
-                                    <div className="h-14 w-14 rounded-xl bg-[#D51776]/10 flex items-center justify-center mb-4">
-                                        <LinkIcon className="w-7 h-7 text-[#D51776]" />
+                                <div className="p-5 bg-white border border-slate-200 rounded-2xl hover:border-[#D51776]/40 hover:shadow-lg transition-all shadow-sm">
+                                    <div className="h-12 w-12 rounded-xl bg-[#D51776]/10 flex items-center justify-center mb-4">
+                                        <LinkIcon className="w-6 h-6 text-[#D51776]" />
                                     </div>
                                     <h4 className="text-slate-950 font-bold mb-2 text-base">Supply Chain Risks</h4>
                                     <p className="text-sm text-slate-600 leading-relaxed">Vendor ecosystem intelligence checking for cascading breach vectors.</p>
@@ -803,20 +880,20 @@ const Audit = () => {
             </section>
 
             {/* PRICING SECTION */}
-            <section id="pricing" className="pricing py-24 bg-white">
+            <section id="pricing" className="pricing py-16 md:py-20 bg-white">
                 <div className="container mx-auto px-5">
-                    <div className="pricing-header text-center reveal max-w-2xl mx-auto mb-16">
+                    <div className="pricing-header text-center reveal max-w-2xl mx-auto mb-12">
                         <div className="section-eyebrow text-violet font-semibold tracking-widest text-xs uppercase mb-3">Pricing</div>
-                        <h2 className="section-title text-4xl md:text-5xl font-display text-slate-950 mb-6">Unlimited audits.<br /><em className="italic text-violet">One unbeatable cost.</em></h2>
-                        <p className="section-body text-slate-700 text-lg leading-relaxed">Simple, predictable pricing that makes the ROI self‑evident.</p>
+                        <h2 className="section-title text-3xl md:text-4xl font-display text-slate-950 mb-6">Unlimited audits.<br /><em className="italic text-violet">One unbeatable cost.</em></h2>
+                        <p className="section-body text-slate-700 text-base leading-relaxed">Simple, predictable pricing that makes the ROI self‑evident.</p>
                     </div>
 
                     {/* Modern pricing card design */}
-                    <div className="pricing-card max-w-xl mx-auto bg-white border border-slate-200 rounded-3xl p-10 relative overflow-hidden mt-8 reveal shadow-2xl shadow-slate-200/50 hover:border-violet/60 transition-all duration-550 transform hover:scale-[1.02]">
+                    <div className="pricing-card max-w-xl mx-auto bg-white border border-slate-200 rounded-3xl p-8 relative overflow-hidden mt-8 reveal shadow-2xl shadow-slate-200/50 hover:border-violet/60 transition-all duration-550 transform hover:scale-[1.02]">
                         <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-violet to-primaryBlue"></div>
 
                         <div className="pricing-tag inline-block bg-gradient-to-r from-violet to-primaryBlue text-white text-xs font-bold uppercase rounded-full px-5 py-2 mb-6 tracking-widest shadow-lg">Annual Access</div>
-                        <h3 className="pricing-headline font-display text-3xl text-slate-950 mb-3 font-bold">Unlimited Audits,<br />All Year Long</h3>
+                        <h3 className="pricing-headline font-display text-2xl text-slate-950 mb-3 font-bold">Unlimited Audits,<br />All Year Long</h3>
                         <p className="pricing-sub text-slate-700 text-sm mb-6 leading-relaxed">No per‑audit fees. No volume caps. No surprises.</p>
 
                         <div className="pricing-equiv bg-violet-50/50 border border-violet-200 rounded-xl p-5 mb-8">
@@ -847,19 +924,19 @@ const Audit = () => {
             </section>
 
             {/* CTA / CONTACT SECTION — Multi-field lead form */}
-            <section id="contact" className="cta-section py-24 bg-slate-50 border-t border-slate-100 relative overflow-hidden">
+            <section id="contact" className="cta-section py-16 md:py-20 bg-slate-50 border-t border-slate-100 relative overflow-hidden">
                 {/* Decorative gradient blobs */}
                 <div className="absolute top-0 left-0 w-96 h-96 bg-violet/5 rounded-full blur-3xl pointer-events-none -translate-x-1/2 -translate-y-1/2" />
                 <div className="absolute bottom-0 right-0 w-96 h-96 bg-primaryBlue/5 rounded-full blur-3xl pointer-events-none translate-x-1/2 translate-y-1/2" />
                 <div className="container mx-auto px-5 relative z-10">
                     <div className="text-center reveal max-w-2xl mx-auto mb-12">
                         <div className="section-eyebrow text-violet font-semibold tracking-widest text-xs uppercase mb-4">Get Started</div>
-                        <h2 className="section-title text-4xl md:text-5xl font-display text-slate-950 mb-6 leading-tight">Ready to transform how your<br />team delivers <em className="italic text-violet">compliance audits?</em></h2>
-                        <p className="cta-desc text-slate-700 mb-2 text-base md:text-lg leading-relaxed">Request a personalised demo and see Audit.AI handle a real audit workflow — end to end.</p>
+                        <h2 className="section-title text-3xl md:text-4xl font-display text-slate-950 mb-6 leading-tight">Ready to transform how your<br />team delivers <em className="italic text-violet">compliance audits?</em></h2>
+                        <p className="cta-desc text-slate-700 mb-2 text-sm md:text-base leading-relaxed">Request a personalised demo and see Audit.AI handle a real audit workflow — end to end.</p>
                     </div>
 
                     {/* Multi-field lead form */}
-                    <div className="reveal max-w-3xl mx-auto bg-white rounded-3xl shadow-2xl shadow-slate-200/60 border border-slate-200 p-8 md:p-12">
+                    <div className="reveal max-w-3xl mx-auto bg-white rounded-3xl shadow-2xl shadow-slate-200/60 border border-slate-200 p-6 md:p-8">
                         <h3 className="text-xl font-display font-bold text-slate-950 mb-2">Request a Demo</h3>
                         <p className="text-sm text-slate-600 mb-8">Fill in your details and our team will be in touch within one business day.</p>
                         <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>

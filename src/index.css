@@ -14,10 +14,10 @@
   --slate: #8A9BB5;
   --text-body: #D4DCE8;
   --text-muted: #6B7F9A;
-  --accent-blue: rgb(61,99,226);
-  --accent-violet: rgb(153,30,180);
-  --border: rgba(153,30,180,0.15);
-  --border-bright: rgba(61,99,226,0.35);
+  --accent-blue: rgb(61, 99, 226);
+  --accent-violet: rgb(153, 30, 180);
+  --border: rgba(153, 30, 180, 0.15);
+  --border-bright: rgba(61, 99, 226, 0.35);
   --font-display: 'Poppins', 'Space Grotesk', sans-serif;
   --font-body: 'Poppins', sans-serif;
 }
@@ -38,6 +38,7 @@ body {
   transform: translateY(30px);
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
@@ -45,28 +46,42 @@ body {
 
 /* Flowing moving gradient for Hero & sections */
 .hero-moving-gradient {
-  background: linear-gradient(135deg, rgb(213,23,118) 0%, rgb(181,22,177) 25%, rgb(153,30,180) 50%, rgb(142,36,188) 75%, rgb(61,99,226) 100%);
+  background: linear-gradient(135deg, rgb(213, 23, 118) 0%, rgb(181, 22, 177) 25%, rgb(153, 30, 180) 50%, rgb(142, 36, 188) 75%, rgb(61, 99, 226) 100%);
   background-size: 300% 300%;
   animation: flowGradient 12s ease infinite;
 }
 
 @keyframes flowGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Vertical Carousel Animation for list in Problem Section */
 .animate-scroll-vertical {
   animation: scrollVertical 30s linear infinite;
 }
+
 .animate-scroll-vertical:hover {
   animation-play-state: paused;
 }
 
 @keyframes scrollVertical {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-50%); }
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-50%);
+  }
 }
 
 /* =============================================
@@ -75,37 +90,71 @@ body {
    ============================================= */
 .globe-container {
   position: relative;
-  width: 380px;
-  height: 380px;
+  width: 300px;
+  height: 300px;
 }
 
 .globe-ring {
   position: absolute;
   border-radius: 50%;
-  border: 1.5px solid rgba(255,255,255,0.25);
-  top: 50%; left: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   animation: ring-pulse 4s ease-in-out infinite;
 }
 
-.globe-ring:nth-child(1) { width: 110px; height: 110px; animation-delay: 0s; }
-.globe-ring:nth-child(2) { width: 200px; height: 200px; animation-delay: 0.8s; border-color: rgba(255,255,255,0.18); }
-.globe-ring:nth-child(3) { width: 290px; height: 290px; animation-delay: 1.6s; border-color: rgba(255,255,255,0.12); }
-.globe-ring:nth-child(4) { width: 380px; height: 380px; animation-delay: 2.4s; border-color: rgba(255,255,255,0.07); }
+.globe-ring:nth-child(1) {
+  width: 90px;
+  height: 90px;
+  animation-delay: 0s;
+}
+
+.globe-ring:nth-child(2) {
+  width: 160px;
+  height: 160px;
+  animation-delay: 0.8s;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.globe-ring:nth-child(3) {
+  width: 230px;
+  height: 230px;
+  animation-delay: 1.6s;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.globe-ring:nth-child(4) {
+  width: 300px;
+  height: 300px;
+  animation-delay: 2.4s;
+  border-color: rgba(255, 255, 255, 0.07);
+}
 
 @keyframes ring-pulse {
-  0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
-  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.04); }
+
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.04);
+  }
 }
 
 .globe-core {
   position: absolute;
-  width: 100px; height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  top: 50%; left: 50%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle at 30% 30%, rgb(213,23,118), rgb(153,30,180), rgb(61,99,226));
-  box-shadow: 0 0 50px rgba(255,255,255,0.3), 0 0 100px rgba(61,99,226,0.4), 0 0 30px rgba(213,23,118,0.4);
+  background: radial-gradient(circle at 30% 30%, rgb(213, 23, 118), rgb(153, 30, 180), rgb(61, 99, 226));
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.3), 0 0 80px rgba(61, 99, 226, 0.4), 0 0 24px rgba(213, 23, 118, 0.4);
 }
 
 .globe-core::after {
@@ -116,7 +165,7 @@ body {
   align-items: center;
   justify-content: center;
   font-family: 'Poppins', sans-serif;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.12em;
   color: white;
@@ -125,12 +174,13 @@ body {
 /* Threat nodes — LARGE, visible on gradient bg */
 .threat-node {
   position: absolute;
-  width: 54px; height: 54px;
-  border-radius: 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 18px;
   border: 2px solid;
   backdrop-filter: blur(12px);
   animation: float-node 6s ease-in-out infinite;
@@ -141,15 +191,33 @@ body {
     width: 260px;
     height: 260px;
   }
-  .globe-ring:nth-child(1) { width: 70px; height: 70px; }
-  .globe-ring:nth-child(2) { width: 130px; height: 130px; }
-  .globe-ring:nth-child(3) { width: 190px; height: 190px; }
-  .globe-ring:nth-child(4) { width: 260px; height: 260px; }
+
+  .globe-ring:nth-child(1) {
+    width: 70px;
+    height: 70px;
+  }
+
+  .globe-ring:nth-child(2) {
+    width: 130px;
+    height: 130px;
+  }
+
+  .globe-ring:nth-child(3) {
+    width: 190px;
+    height: 190px;
+  }
+
+  .globe-ring:nth-child(4) {
+    width: 260px;
+    height: 260px;
+  }
+
   .threat-node {
     width: 40px;
     height: 40px;
     font-size: 16px;
   }
+
   .node-label {
     font-size: 8px;
     top: -18px;
@@ -157,48 +225,73 @@ body {
 }
 
 @keyframes float-node {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 /* Hero globe — white/translucent nodes on gradient bg */
-.threat-node.danger { background: rgba(213,23,118,0.25); border-color: rgba(255,120,160,0.7); }
-.threat-node.warn  { background: rgba(145,70,255,0.25);  border-color: rgba(190,140,255,0.7); }
-.threat-node.info  { background: rgba(61,99,226,0.25);   border-color: rgba(120,160,255,0.7); }
+.threat-node.danger {
+  background: rgba(213, 23, 118, 0.25);
+  border-color: rgba(255, 120, 160, 0.7);
+}
+
+.threat-node.warn {
+  background: rgba(145, 70, 255, 0.25);
+  border-color: rgba(190, 140, 255, 0.7);
+}
+
+.threat-node.info {
+  background: rgba(61, 99, 226, 0.25);
+  border-color: rgba(120, 160, 255, 0.7);
+}
 
 /* Node labels — big, white on hero */
 .node-label {
   position: absolute;
-  font-size: 10px;
+  font-size: 9px;
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
   white-space: nowrap;
-  top: -22px;
+  top: -18px;
   left: 50%;
   transform: translateX(-50%);
-  color: rgba(255,255,255,0.9);
+  color: rgba(255, 255, 255, 0.9);
   letter-spacing: 0.06em;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 /* Hero alert cards — glass style on gradient */
 .alert-card {
   position: absolute;
-  padding: 12px 16px;
-  border-radius: 14px;
-  background: rgba(255,255,255,0.15);
-  border: 1.5px solid rgba(255,255,255,0.35);
-  font-size: 12px;
-  min-width: 210px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  font-size: 11px;
+  min-width: 180px;
   backdrop-filter: blur(16px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
   animation: float-card 5s ease-in-out infinite;
   color: #ffffff;
 }
 
 @keyframes float-card {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 @media (max-width: 1023px) {
@@ -221,15 +314,15 @@ body {
    ============================================= */
 .threat-feed-panel {
   background: linear-gradient(135deg, #0D1E35 0%, #0a1525 50%, #111827 100%);
-  border: 1.5px solid rgba(61,99,226,0.3);
+  border: 1.5px solid rgba(61, 99, 226, 0.3);
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.05) inset;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
 }
 
 .feed-header {
-  background: rgba(255,255,255,0.04);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   padding: 14px 20px;
   display: flex;
   align-items: center;
@@ -237,38 +330,53 @@ body {
 }
 
 .feed-dot {
-  width: 10px; height: 10px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   animation: blink 2s ease-in-out infinite;
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
 }
 
 .feed-row {
   padding: 14px 20px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   display: grid;
   align-items: center;
   gap: 12px;
   transition: background 0.2s;
 }
+
 .feed-row:hover {
-  background: rgba(255,255,255,0.04);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 /* Scan bar animation */
 .scan-bar {
   height: 3px;
-  background: linear-gradient(90deg, transparent, rgba(61,99,226,0.8), rgba(213,23,118,0.8), transparent);
+  background: linear-gradient(90deg, transparent, rgba(61, 99, 226, 0.8), rgba(213, 23, 118, 0.8), transparent);
   background-size: 200% 100%;
   animation: scan 2.5s linear infinite;
 }
+
 @keyframes scan {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 /* Radar pulse circle for threat intel panel */
@@ -278,9 +386,17 @@ body {
   border: 2px solid;
   animation: radar-expand 3s ease-out infinite;
 }
+
 @keyframes radar-expand {
-  0% { opacity: 0.8; transform: scale(0.5); }
-  100% { opacity: 0; transform: scale(2); }
+  0% {
+    opacity: 0.8;
+    transform: scale(0.5);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
 }
 
 /* Glass card styling */
