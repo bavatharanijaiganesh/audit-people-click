@@ -172,9 +172,9 @@ const Audit = () => {
                                 <div className="stat-num text-white text-2xl font-bold mb-1">70%+</div>
                                 <div className="stat-label text-[10px] text-white/50 uppercase tracking-wider">Effort saved</div>
                             </div>
-                            <div className="stat-item px-4 py-0.5 text-center border-r border-white/10">
-                                <div className="stat-num text-white text-6xl font-bold  leading-none">∞</div>
-                                <div className="stat-label text-[10px] text-white/50 uppercase tracking-wider leading-none -translate-y-2">Unlimited audits</div>
+                            <div className="stat-item px-4  text-center border-r border-white/10">
+                                <div className="stat-num text-white text-6xl font-bold leading-none mb-2">∞</div>
+                                <div className="stat-label text-[10px] text-white/50 uppercase tracking-wider leading-none -translate-y-4">Unlimited audits</div>
                             </div>
                             <div className="stat-item px-4 py-3.5 text-center border-r border-white/10">
                                 <div className="stat-num text-white text-2xl font-bold mb-1">1×</div>
@@ -564,10 +564,10 @@ const Audit = () => {
                             Strengthening Governance, Risk Management, and Regulatory Compliance
                         </h2>
                         <p className="text-slate-700 text-sm mb-3 leading-relaxed">
-                            In today's highly regulated business environment, managing audits and monitoring compliance manually can be complex, slow, and error-prone.
+                            In today's highly regulated business environment, organizations must ensure that their operations follow strict compliance requirements while maintaining transparency and accountability. Managing audits, monitoring compliance, and identifying risks through manual processes can be complex, time-consuming, and prone to errors.
                         </p>
                         <p className="text-slate-600 text-xs leading-relaxed">
-                            Peopleclick Audit &amp; Compliance Solutions automate these processes, enabling organizations to detect risks early, maintain compliance, and improve operational transparency.
+                            Peopleclick Audit &amp; Compliance Solutions help organizations simplify and automate their audit and compliance processes. By combining intelligent monitoring, advanced analytics, and automated workflows, the platform enables businesses to detect risks early, maintain regulatory compliance, and improve operational transparency.
                         </p>
                     </div>
 
@@ -577,8 +577,8 @@ const Audit = () => {
                                 <div className="h-12 w-12 rounded-xl bg-violet/10 flex items-center justify-center mb-6">
                                     <Cog6ToothIcon className="w-6 h-6 text-violet" />
                                 </div>
-                                <h3 className="text-lg font-bold text-slate-950 mb-3">Process Automation</h3>
-                                <p className="text-sm text-slate-700 leading-relaxed">Automate internal and external audit workflows, checklists, and document requests seamlessly.</p>
+                                <h3 className="text-lg font-bold text-slate-950 mb-3">Intelligent Audit Automation</h3>
+                                <p className="text-sm text-slate-700 leading-relaxed">Automate audit workflows including planning, evidence collection, review, and reporting. This reduces manual effort and improves the accuracy and efficiency of audit processes.</p>
                             </div>
                         </div>
                         <div className="bg-white border border-slate-200 p-5 rounded-xl hover:border-[#3d63e2]/40 hover:translate-y-[-5px] hover:shadow-xl transition-all duration-300 flex flex-col justify-between shadow-md">
@@ -586,8 +586,8 @@ const Audit = () => {
                                 <div className="h-12 w-12 rounded-xl bg-primaryBlue/10 flex items-center justify-center mb-6">
                                     <ChartBarIcon className="w-6 h-6 text-primaryBlue" />
                                 </div>
-                                <h3 className="text-lg font-bold text-slate-950 mb-3">Compliance Monitoring</h3>
-                                <p className="text-sm text-slate-700 leading-relaxed">Monitor compliance with evolving regulatory standards and internal policy mandates dynamically.</p>
+                                <h3 className="text-lg font-bold text-slate-950 mb-3">Continuous Compliance Monitoring</h3>
+                                <p className="text-sm text-slate-700 leading-relaxed">Monitor policies, regulatory requirements, and operational activities in real time to ensure that organizations remain compliant with industry standards and internal governance frameworks.</p>
                             </div>
                         </div>
                         <div className="bg-white border border-slate-200 p-5 rounded-xl hover:border-[#D51776]/40 hover:translate-y-[-5px] hover:shadow-xl transition-all duration-300 flex flex-col justify-between shadow-md">
@@ -595,8 +595,8 @@ const Audit = () => {
                                 <div className="h-12 w-12 rounded-xl bg-[#D51776]/10 flex items-center justify-center mb-6">
                                     <MagnifyingGlassIcon className="w-6 h-6 text-[#D51776]" />
                                 </div>
-                                <h3 className="text-lg font-bold text-slate-950 mb-3">Risk Detection</h3>
-                                <p className="text-sm text-slate-700 leading-relaxed">Detect transaction anomalies, compliance risks, and control failures before they escalate.</p>
+                                <h3 className="text-lg font-bold text-slate-950 mb-3">Risk Identification and Management</h3>
+                                <p className="text-sm text-slate-700 leading-relaxed">Identify potential risks and operational gaps early through intelligent analytics and monitoring tools, allowing organizations to take proactive corrective actions.</p>
                             </div>
                         </div>
                         <div className="bg-white border border-slate-200 p-5 rounded-xl hover:border-violet/40 hover:translate-y-[-5px] hover:shadow-xl transition-all duration-300 flex flex-col justify-between shadow-md md:col-span-2 lg:col-span-1 lg:max-w-none md:max-w-md md:mx-auto lg:mx-0">
@@ -604,8 +604,8 @@ const Audit = () => {
                                 <div className="h-12 w-12 rounded-xl bg-violet/10 flex items-center justify-center mb-6">
                                     <ShieldCheckIcon className="w-6 h-6 text-violet" />
                                 </div>
-                                <h3 className="text-lg font-bold text-slate-950 mb-3">Governance Framework</h3>
-                                <p className="text-sm text-slate-700 leading-relaxed">Strengthen governance structure and internal control mechanisms across all operational departments.</p>
+                                <h3 className="text-lg font-bold text-slate-950 mb-3">Centralized Audit and Compliance Dashboard</h3>
+                                <p className="text-sm text-slate-700 leading-relaxed">Gain a complete view of compliance status, audit activities, and risk indicators through centralized dashboards and reporting tools.</p>
                             </div>
                         </div>
                     </div>
@@ -666,214 +666,38 @@ const Audit = () => {
                             <h2 className="section-title text-3xl md:text-4xl font-display text-slate-950 mb-6 leading-tight">
                                 Intelligent Audit Automation for Smarter Compliance
                             </h2>
-                            <p className="section-body text-slate-700 mb-6 leading-relaxed text-base">
-                                The Peopleclick Audit AI Platform brings machine intelligence to the regulatory framework. By monitoring transactions, detecting operational deviations, and drafting documentation, it transitions teams from periodic auditing to real-time compliance operations.
+                            <p className="section-body text-slate-700 mb-4 leading-relaxed text-base">
+                                Organizations today face increasing regulatory requirements and complex operational environments. Traditional auditing processes can be time-consuming, manual, and difficult to scale.
+                            </p>
+                            <p className="section-body text-slate-700 mb-6 leading-relaxed text-sm">
+                                The Peopleclick Audit AI Platform brings intelligence and automation to the audit process by using Artificial Intelligence and advanced analytics to monitor transactions, identify anomalies, and support compliance activities.
                             </p>
                             <ul className="space-y-4">
                                 <li className="flex items-start gap-3 text-slate-800">
                                     <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primaryBlue/10 flex-shrink-0 mt-0.5">
                                         <CheckIcon className="w-4 h-4 text-primaryBlue" />
                                     </span>
-                                    <span className="text-sm">Continuous real‑time operational transaction auditing</span>
+                                    <span className="text-sm">Automate audit workflows and reporting</span>
                                 </li>
                                 <li className="flex items-start gap-3 text-slate-800">
                                     <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primaryBlue/10 flex-shrink-0 mt-0.5">
                                         <CheckIcon className="w-4 h-4 text-primaryBlue" />
                                     </span>
-                                    <span className="text-sm">AI anomaly detection matching global regulatory rules</span>
+                                    <span className="text-sm">Monitor transactions and operational data in real time</span>
                                 </li>
                                 <li className="flex items-start gap-3 text-slate-800">
                                     <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primaryBlue/10 flex-shrink-0 mt-0.5">
                                         <CheckIcon className="w-4 h-4 text-primaryBlue" />
                                     </span>
-                                    <span className="text-sm">Instant mapping of internal controls to multiple compliance standards</span>
+                                    <span className="text-sm">Detect anomalies and compliance risks early</span>
+                                </li>
+                                <li className="flex items-start gap-3 text-slate-800">
+                                    <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primaryBlue/10 flex-shrink-0 mt-0.5">
+                                        <CheckIcon className="w-4 h-4 text-primaryBlue" />
+                                    </span>
+                                    <span className="text-sm">Strengthen governance and risk management</span>
                                 </li>
                             </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* SECURITY & THREAT INTELLIGENCE (ORGWATCH INTEGRATION) */}
-            <section id="threat-intelligence" className="threats py-16 md:py-20 bg-slate-50/50 border-y border-slate-100">
-                <div className="container mx-auto px-5">
-                    <div className="grid md:grid-cols-2 gap-12 items-center">
-                        {/* Left side: Threat Capabilities */}
-                        <div className="reveal">
-                            <div className="section-eyebrow text-primaryBlue font-semibold tracking-widest text-xs uppercase mb-4">Threat Intelligence (Powered by OrgWatch)</div>
-                            <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-6 leading-tight" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                                Attack Surface &amp; Threat Infrastructure Monitoring
-                            </h2>
-                            <p className="text-slate-700 mb-8 leading-relaxed text-base">
-                                Audit compliance doesn't end with paperwork. OrgWatch actively monitors external threat vector assets, brand impersonation, ransomware leak risks, and supply chain exposure, providing a robust shield aligned with the MITRE ATT&amp;CK framework.
-                            </p>
-
-                            <div className="grid sm:grid-cols-2 gap-5">
-                                <div className="p-5 bg-white border border-slate-200 rounded-2xl hover:border-[#D51776]/40 hover:shadow-lg transition-all shadow-sm">
-                                    <div className="h-12 w-12 rounded-xl bg-[#D51776]/10 flex items-center justify-center mb-4">
-                                        <LockClosedIcon className="w-6 h-6 text-[#D51776]" />
-                                    </div>
-                                    <h4 className="text-slate-950 font-bold mb-2 text-base">Ransomware Watch</h4>
-                                    <p className="text-sm text-slate-600 leading-relaxed">Tracks threat groups and scans sector leak feeds continuously.</p>
-                                </div>
-                                <div className="p-5 bg-white border border-slate-200 rounded-2xl hover:border-primaryBlue/40 hover:shadow-lg transition-all shadow-sm">
-                                    <div className="h-12 w-12 rounded-xl bg-primaryBlue/10 flex items-center justify-center mb-4">
-                                        <IdentificationIcon className="w-6 h-6 text-primaryBlue" />
-                                    </div>
-                                    <h4 className="text-slate-950 font-bold mb-2 text-base">Credential Detection</h4>
-                                    <p className="text-sm text-slate-600 leading-relaxed">Darkweb credential compromise scanning to prevent initial breach access.</p>
-                                </div>
-                                <div className="p-5 bg-white border border-slate-200 rounded-2xl hover:border-violet/40 hover:shadow-lg transition-all shadow-sm">
-                                    <div className="h-12 w-12 rounded-xl bg-violet/10 flex items-center justify-center mb-4">
-                                        <GlobeAltIcon className="w-6 h-6 text-violet" />
-                                    </div>
-                                    <h4 className="text-slate-950 font-bold mb-2 text-base">External ASM</h4>
-                                    <p className="text-sm text-slate-600 leading-relaxed">Continuous discovery of subdomains, open ports, and vulnerable points.</p>
-                                </div>
-                                <div className="p-5 bg-white border border-slate-200 rounded-2xl hover:border-[#D51776]/40 hover:shadow-lg transition-all shadow-sm">
-                                    <div className="h-12 w-12 rounded-xl bg-[#D51776]/10 flex items-center justify-center mb-4">
-                                        <LinkIcon className="w-6 h-6 text-[#D51776]" />
-                                    </div>
-                                    <h4 className="text-slate-950 font-bold mb-2 text-base">Supply Chain Risks</h4>
-                                    <p className="text-sm text-slate-600 leading-relaxed">Vendor ecosystem intelligence checking for cascading breach vectors.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Right side: NEW — Live Threat Intelligence Dashboard */}
-                        <div className="reveal">
-                            <div className="threat-feed-panel">
-                                {/* Panel titlebar */}
-                                <div className="feed-header">
-                                    <div className="feed-dot" style={{ background: '#FF5F57', animationDelay: '0s' }}></div>
-                                    <div className="feed-dot" style={{ background: '#FFBD2E', animationDelay: '0.4s' }}></div>
-                                    <div className="feed-dot" style={{ background: '#28CA41', animationDelay: '0.8s' }}></div>
-                                    <span className="ml-3 text-white/80 font-semibold text-sm">OrgWatch · Live Threat Monitor</span>
-                                    <span className="ml-auto flex items-center gap-1.5 text-emerald-400 text-xs font-bold">
-                                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                                        LIVE
-                                    </span>
-                                </div>
-
-                                {/* Scan bar */}
-                                <div className="scan-bar"></div>
-
-                                {/* Column headers */}
-                                <div className="feed-row" style={{ gridTemplateColumns: '1fr 2fr 1fr', background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                                    <div className="text-[11px] font-bold text-white/40 uppercase tracking-widest">VECTOR</div>
-                                    <div className="text-[11px] font-bold text-white/40 uppercase tracking-widest">THREAT DETAILS</div>
-                                    <div className="text-[11px] font-bold text-white/40 uppercase tracking-widest text-right">SEVERITY</div>
-                                </div>
-
-                                {/* Feed row 1 */}
-                                <div className="feed-row" style={{ gridTemplateColumns: '1fr 2fr 1fr' }}>
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: 'rgba(213,23,118,0.15)', border: '1px solid rgba(213,23,118,0.4)' }}>
-                                            <LockClosedIcon className="w-5 h-5" style={{ color: '#D51776' }} />
-                                        </div>
-                                        <span className="text-xs font-bold text-rose-400">RANSOM</span>
-                                    </div>
-                                    <div>
-                                        <div className="text-white font-semibold text-sm mb-0.5">LockBit 3.0 affiliate active</div>
-                                        <div className="text-white/45 text-xs font-mono">T1486 · Data Encrypted · 3m ago</div>
-                                    </div>
-                                    <div className="text-right">
-                                        <span className="text-xs font-bold px-3 py-1.5 rounded-full" style={{ background: 'rgba(213,23,118,0.2)', color: '#ff6b9d', border: '1px solid rgba(213,23,118,0.5)' }}>CRITICAL</span>
-                                    </div>
-                                </div>
-
-                                {/* Feed row 2 */}
-                                <div className="feed-row" style={{ gridTemplateColumns: '1fr 2fr 1fr' }}>
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: 'rgba(145,70,255,0.15)', border: '1px solid rgba(145,70,255,0.4)' }}>
-                                            <IdentificationIcon className="w-5 h-5" style={{ color: '#9146FF' }} />
-                                        </div>
-                                        <span className="text-xs font-bold text-violet">CREDS</span>
-                                    </div>
-                                    <div>
-                                        <div className="text-white font-semibold text-sm mb-0.5">Credential leak in darkweb forum</div>
-                                        <div className="text-white/45 text-xs font-mono">T1078 · Valid Accounts · 7m ago</div>
-                                    </div>
-                                    <div className="text-right">
-                                        <span className="text-xs font-bold px-3 py-1.5 rounded-full" style={{ background: 'rgba(145,70,255,0.2)', color: '#c084fc', border: '1px solid rgba(145,70,255,0.5)' }}>HIGH</span>
-                                    </div>
-                                </div>
-
-                                {/* Feed row 3 */}
-                                <div className="feed-row" style={{ gridTemplateColumns: '1fr 2fr 1fr' }}>
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: 'rgba(61,99,226,0.15)', border: '1px solid rgba(61,99,226,0.4)' }}>
-                                            <GlobeAltIcon className="w-5 h-5" style={{ color: '#3d63e2' }} />
-                                        </div>
-                                        <span className="text-xs font-bold text-blue-400">ASM</span>
-                                    </div>
-                                    <div>
-                                        <div className="text-white font-semibold text-sm mb-0.5">7 new exposed subdomains found</div>
-                                        <div className="text-white/45 text-xs font-mono">T1595 · Active Scanning · 12m ago</div>
-                                    </div>
-                                    <div className="text-right">
-                                        <span className="text-xs font-bold px-3 py-1.5 rounded-full" style={{ background: 'rgba(61,99,226,0.2)', color: '#93c5fd', border: '1px solid rgba(61,99,226,0.5)' }}>MEDIUM</span>
-                                    </div>
-                                </div>
-
-                                {/* Feed row 4 */}
-                                <div className="feed-row" style={{ gridTemplateColumns: '1fr 2fr 1fr' }}>
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: 'rgba(245,158,11,0.15)', border: '1px solid rgba(245,158,11,0.4)' }}>
-                                            <ExclamationTriangleIcon className="w-5 h-5" style={{ color: '#f59e0b' }} />
-                                        </div>
-                                        <span className="text-xs font-bold text-amber-400">BRAND</span>
-                                    </div>
-                                    <div>
-                                        <div className="text-white font-semibold text-sm mb-0.5">Phishing domain mimicking portal</div>
-                                        <div className="text-white/45 text-xs font-mono">T1566 · Phishing · 19m ago</div>
-                                    </div>
-                                    <div className="text-right">
-                                        <span className="text-xs font-bold px-3 py-1.5 rounded-full" style={{ background: 'rgba(245,158,11,0.2)', color: '#fcd34d', border: '1px solid rgba(245,158,11,0.5)' }}>HIGH</span>
-                                    </div>
-                                </div>
-
-                                {/* Feed row 5 */}
-                                <div className="feed-row" style={{ gridTemplateColumns: '1fr 2fr 1fr' }}>
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: 'rgba(213,23,118,0.15)', border: '1px solid rgba(213,23,118,0.4)' }}>
-                                            <LinkIcon className="w-5 h-5" style={{ color: '#D51776' }} />
-                                        </div>
-                                        <span className="text-xs font-bold text-rose-400">SUPPLY</span>
-                                    </div>
-                                    <div>
-                                        <div className="text-white font-semibold text-sm mb-0.5">3rd-party vendor breach detected</div>
-                                        <div className="text-white/45 text-xs font-mono">T1195 · Supply Chain · 28m ago</div>
-                                    </div>
-                                    <div className="text-right">
-                                        <span className="text-xs font-bold px-3 py-1.5 rounded-full" style={{ background: 'rgba(213,23,118,0.2)', color: '#ff6b9d', border: '1px solid rgba(213,23,118,0.5)' }}>CRITICAL</span>
-                                    </div>
-                                </div>
-
-                                {/* Footer stats */}
-                                <div className="px-5 py-4 flex items-center justify-between" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', background: 'rgba(0,0,0,0.2)' }}>
-                                    <div className="flex items-center gap-4">
-                                        <div className="text-center">
-                                            <div className="text-white font-bold text-xl">247</div>
-                                            <div className="text-white/40 text-[11px] uppercase tracking-wider">IOCs Today</div>
-                                        </div>
-                                        <div className="w-px h-8" style={{ background: 'rgba(255,255,255,0.1)' }}></div>
-                                        <div className="text-center">
-                                            <div className="text-rose-400 font-bold text-xl">12</div>
-                                            <div className="text-white/40 text-[11px] uppercase tracking-wider">Critical</div>
-                                        </div>
-                                        <div className="w-px h-8" style={{ background: 'rgba(255,255,255,0.1)' }}></div>
-                                        <div className="text-center">
-                                            <div className="text-amber-400 font-bold text-xl">38</div>
-                                            <div className="text-white/40 text-[11px] uppercase tracking-wider">High</div>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center gap-2 text-emerald-400 text-xs font-semibold">
-                                        <span className="w-2 h-2 rounded-full bg-emerald-400" style={{ animation: 'blink 1.5s ease-in-out infinite' }}></span>
-                                        MITRE ATT&CK Mapped
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
