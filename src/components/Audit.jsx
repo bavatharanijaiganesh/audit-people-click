@@ -173,8 +173,8 @@ const Audit = () => {
                                 <div className="stat-label text-[10px] text-white/50 uppercase tracking-wider">Effort saved</div>
                             </div>
                             <div className="stat-item px-4 py-0.5 text-center border-r border-white/10">
-                                <div className="stat-num text-white text-6xl font-bold mb-1">∞</div>
-                                <div className="stat-label text-[10px] text-white/50 uppercase tracking-wider">Unlimited audits</div>
+                                <div className="stat-num text-white text-6xl font-bold  leading-none">∞</div>
+                                <div className="stat-label text-[10px] text-white/50 uppercase tracking-wider leading-none -translate-y-2">Unlimited audits</div>
                             </div>
                             <div className="stat-item px-4 py-3.5 text-center border-r border-white/10">
                                 <div className="stat-num text-white text-2xl font-bold mb-1">1×</div>
