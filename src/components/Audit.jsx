@@ -13,10 +13,6 @@ import {
     BoltIcon,
     CheckCircleIcon,
     UsersIcon,
-    LockClosedIcon,
-    IdentificationIcon,
-    GlobeAltIcon,
-    LinkIcon,
     ExclamationTriangleIcon,
     ArrowTrendingUpIcon,
     CheckIcon,
@@ -187,7 +183,7 @@ const Audit = () => {
                         </div>
                     </div>
 
-                    {/* RIGHT: Threat Globe — transparent bg shows gradient */}
+                    {/* RIGHT: Audit Platform Globe — transparent bg shows gradient */}
                     <div className="flex-1 flex items-center justify-center relative min-h-[500px] lg:min-h-[600px] w-full max-w-xl">
                         {/* Globe container */}
                         <div className="globe-container">
@@ -196,54 +192,54 @@ const Audit = () => {
                             <div className="globe-ring"></div>
                             <div className="globe-ring"></div>
 
-                            {/* Floating threat nodes — big icons, visible on gradient */}
-                            <div className="threat-node danger" style={{ top: '4%', left: '50%', animationDelay: '0.5s' }}>
-                                <LockClosedIcon className="w-5 h-5 text-white" />
-                                <div className="node-label">RANSOMWARE</div>
+                            {/* Floating audit platform nodes */}
+                            <div className="threat-node info" style={{ top: '4%', left: '50%', animationDelay: '0.5s' }}>
+                                <CpuChipIcon className="w-5 h-5 text-white" />
+                                <div className="node-label">AI ANALYSIS</div>
                             </div>
                             <div className="threat-node warn" style={{ top: '65%', left: '10%', animationDelay: '1.2s' }}>
-                                <IdentificationIcon className="w-5 h-5 text-white" />
-                                <div className="node-label">CREDENTIALS</div>
+                                <Cog6ToothIcon className="w-5 h-5 text-white" />
+                                <div className="node-label">WORKFLOWS</div>
                             </div>
                             <div className="threat-node info" style={{ top: '25%', left: '2%', animationDelay: '0.8s' }}>
-                                <GlobeAltIcon className="w-5 h-5 text-white" />
-                                <div className="node-label">ASM</div>
+                                <ChartBarIcon className="w-5 h-5 text-white" />
+                                <div className="node-label">MONITORING</div>
                             </div>
-                            <div className="threat-node warn" style={{ top: '60%', right: '4%', animationDelay: '1.5s' }}>
+                            <div className="threat-node danger" style={{ top: '60%', right: '4%', animationDelay: '1.5s' }}>
+                                <DocumentTextIcon className="w-5 h-5 text-white" />
+                                <div className="node-label">REPORTING</div>
+                            </div>
+                            <div className="threat-node warn" style={{ bottom: '2%', left: '42%', animationDelay: '2s' }}>
                                 <ShieldCheckIcon className="w-5 h-5 text-white" />
-                                <div className="node-label">FAKE APPS</div>
-                            </div>
-                            <div className="threat-node danger" style={{ bottom: '2%', left: '42%', animationDelay: '2s' }}>
-                                <LinkIcon className="w-5 h-5 text-white" />
-                                <div className="node-label">SUPPLY CHAIN</div>
+                                <div className="node-label">GOVERNANCE</div>
                             </div>
 
-                            {/* Alert cards — glass style, big readable text */}
+                            {/* Alert cards — audit themed, glass style */}
                             <div className="alert-card hidden lg:block" style={{ top: '17%', right: '-162px', animationDelay: '0s' }}>
                                 <div className="flex items-center gap-2 font-bold text-rose-300 mb-1.5" style={{ fontSize: '11px' }}>
                                     <ExclamationTriangleIcon className="w-4 h-4 flex-shrink-0" />
-                                    CRITICAL DETECTED
+                                    ANOMALY DETECTED
                                 </div>
-                                <div className="text-white font-medium" style={{ fontSize: '11px', lineHeight: '1.4' }}>Credential leak discovered in darkweb forum</div>
-                                <div className="text-white/60 mt-1 font-mono" style={{ fontSize: '9px' }}>→ T1078 · Valid Accounts · 2m ago</div>
+                                <div className="text-white font-medium" style={{ fontSize: '11px', lineHeight: '1.4' }}>Control gap found in RBI compliance policy</div>
+                                <div className="text-white/60 mt-1 font-mono" style={{ fontSize: '9px' }}>→ Clause 4.2 · High Risk · 2m ago</div>
                             </div>
 
                             <div className="alert-card hidden lg:block" style={{ bottom: '-12%', left: '-170px', animationDelay: '1.8s' }}>
                                 <div className="flex items-center gap-2 font-bold text-amber-300 mb-1.5" style={{ fontSize: '11px' }}>
                                     <BoltIcon className="w-4 h-4 flex-shrink-0" />
-                                    NEW IOC INGESTED
+                                    WORKFLOW AUTOMATED
                                 </div>
-                                <div className="text-white font-medium" style={{ fontSize: '11px', lineHeight: '1.4' }}>C2 domain resolved to known LockBit affiliate</div>
-                                <div className="text-white/60 mt-1 font-mono" style={{ fontSize: '9px' }}>→ T1071 · C2 Comms · 8m ago</div>
+                                <div className="text-white font-medium" style={{ fontSize: '11px', lineHeight: '1.4' }}>Evidence checklist generated for SEBI audit</div>
+                                <div className="text-white/60 mt-1 font-mono" style={{ fontSize: '9px' }}>→ Engagement · Auto · 8m ago</div>
                             </div>
 
                             <div className="alert-card hidden lg:block" style={{ top: '101%', right: '-165px', animationDelay: '1s' }}>
                                 <div className="flex items-center gap-2 font-bold text-blue-300 mb-1.5" style={{ fontSize: '11px' }}>
-                                    <MagnifyingGlassIcon className="w-4 h-4 flex-shrink-0" />
-                                    BRAND PROTECTION
+                                    <CheckCircleIcon className="w-4 h-4 flex-shrink-0" />
+                                    COMPLIANCE VERIFIED
                                 </div>
-                                <div className="text-white font-medium" style={{ fontSize: '11px', lineHeight: '1.4' }}>Phishing domain mimicking corporate portal found</div>
-                                <div className="text-white/60 mt-1 font-mono" style={{ fontSize: '9px' }}>→ T1566 · Phishing · 14m ago</div>
+                                <div className="text-white font-medium" style={{ fontSize: '11px', lineHeight: '1.4' }}>Regulator-ready report compiled and approved</div>
+                                <div className="text-white/60 mt-1 font-mono" style={{ fontSize: '9px' }}>→ IRDAI · Report · 14m ago</div>
                             </div>
 
                             <div className="globe-core"></div>
@@ -251,33 +247,33 @@ const Audit = () => {
 
                     </div>
 
-                    {/* Alert cards — glass style, visible on mobile */}
+                    {/* Alert cards — audit themed, visible on mobile */}
                     <div className="lg:hidden flex flex-col items-center space-y-4 w-full" style={{ position: 'relative', top: '-113px' }}>
                         <div className="alert-card" style={{ animationDelay: '1s' }}>
                             <div className="flex items-center gap-2 font-bold text-rose-300 mb-2" style={{ fontSize: '13px' }}>
                                 <ExclamationTriangleIcon className="w-5 h-5 flex-shrink-0" />
-                                CRITICAL DETECTED
+                                ANOMALY DETECTED
                             </div>
-                            <div className="text-white font-medium" style={{ fontSize: '13px', lineHeight: '1.5' }}>Credential leak discovered in darkweb forum</div>
-                            <div className="text-white/60 mt-1.5 font-mono" style={{ fontSize: '11px' }}>→ T1078 · Valid Accounts · 2m ago</div>
+                            <div className="text-white font-medium" style={{ fontSize: '13px', lineHeight: '1.5' }}>Control gap found in RBI compliance policy</div>
+                            <div className="text-white/60 mt-1.5 font-mono" style={{ fontSize: '11px' }}>→ Clause 4.2 · High Risk · 2m ago</div>
                         </div>
 
                         <div className="alert-card" style={{ animationDelay: '1s' }}>
                             <div className="flex items-center gap-2 font-bold text-amber-300 mb-2" style={{ fontSize: '13px' }}>
-                                <BoltIcon className="w-5 h-5 flex-shrunk-0" />
-                                NEW IOC INGESTED
+                                <BoltIcon className="w-5 h-5 flex-shrink-0" />
+                                WORKFLOW AUTOMATED
                             </div>
-                            <div className="text-white font-medium" style={{ fontSize: '13px', lineHeight: '1.5' }}>C2 domain resolved to known LockBit affiliate</div>
-                            <div className="text-white/60 mt-1.5 font-mono" style={{ fontSize: '11px' }}>→ T1071 · C2 Comms · 8m ago</div>
+                            <div className="text-white font-medium" style={{ fontSize: '13px', lineHeight: '1.5' }}>Evidence checklist generated for SEBI audit</div>
+                            <div className="text-white/60 mt-1.5 font-mono" style={{ fontSize: '11px' }}>→ Engagement · Auto · 8m ago</div>
                         </div>
 
                         <div className="alert-card" style={{ animationDelay: '1s' }}>
                             <div className="flex items-center gap-2 font-bold text-blue-300 mb-2" style={{ fontSize: '13px' }}>
-                                <MagnifyingGlassIcon className="w-5 h-5 flex-shrunk-0" />
-                                BRAND PROTECTION
+                                <CheckCircleIcon className="w-5 h-5 flex-shrink-0" />
+                                COMPLIANCE VERIFIED
                             </div>
-                            <div className="text-white font-medium" style={{ fontSize: '13px', lineHeight: '1.5' }}>Phishing domain mimicking corporate portal found</div>
-                            <div className="text-white/60 mt-1.5 font-mono" style={{ fontSize: '11px' }}>→ T1566 · Phishing · 14m ago</div>
+                            <div className="text-white font-medium" style={{ fontSize: '13px', lineHeight: '1.5' }}>Regulator-ready report compiled and approved</div>
+                            <div className="text-white/60 mt-1.5 font-mono" style={{ fontSize: '11px' }}>→ IRDAI · Report · 14m ago</div>
                         </div>
                     </div>
 
